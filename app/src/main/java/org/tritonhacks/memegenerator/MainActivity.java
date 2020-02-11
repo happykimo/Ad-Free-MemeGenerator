@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     // A simple request; will need another implementation through a singleton
     // class.
-    // For testing purposes; please make the anonymous class methods into lambda
-    // expressions; it's much cleaner, but I'm not familiar with it!... -Alex
     private void testRequest() {
         // Instantiate the RequestQueue
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -56,20 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Request a string response the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
+                response -> {
                     // Display the first 500 characters of the response string.
                     System.out.println("\n-------\n");
                     System.out.println("Response is: " + response.substring(0, 500));
                     System.out.println("-------\n");
-                }
-            }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("That didn't work!");
-            }
-        });
+                }, error -> System.out.println("That didn't work!"));
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
