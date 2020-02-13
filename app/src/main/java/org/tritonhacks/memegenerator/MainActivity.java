@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,23 +29,19 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    // used in GetMemeActivity; move it there
     final static String URL = "https://meme-api.herokuapp.com/gimme";
-    private RandomMeme randomMeme;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-
-        // testing request API here
-        // testRequest();
     }
 
     private void onGetMemeClicked() {
         final Intent intent = new Intent(MainActivity.this, GetMemeActivity.class);
         startActivity(intent);
-        testRequest();
     }
 
     private void onCreateMemeClicked() {
@@ -58,26 +55,5 @@ public class MainActivity extends AppCompatActivity {
 
         final Button createMeme = findViewById(R.id.btn_create_a_meme);
         createMeme.setOnClickListener(v -> onCreateMemeClicked());
-    }
-
-    // A simple request; will need another implementation through a singleton
-    // class.
-    private void testRequest() {
-        Gson gson = new Gson();
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        // Request a string response the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
-            response -> {
-
-                randomMeme = gson.fromJson(response, RandomMeme.class);
-                ImageView imgV_Meme = findViewById(R.id.imgV_meme);
-
-            }, error -> System.out.println("Error!"));
-
-        queue.add(stringRequest);
-
-        // Add the request to the RequestQueue. NOT DONE -Alex
-        // SingletonRQ.getInstance(this).addToRequestQueue(jsonObjRequest);
     }
 }
