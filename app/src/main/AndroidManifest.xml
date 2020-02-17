@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".CreateMemeActivity" />
         <activity android:name=".GetMemeActivity" />
+        <activity android:name=".GalleryActivity" />
     </application>
 
 </manifest>

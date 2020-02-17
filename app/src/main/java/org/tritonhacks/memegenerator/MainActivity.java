@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onCreateMemeClicked() {
-        final Intent intent = new Intent(MainActivity.this, CreateMemeActivity.class);
+        final Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
         startActivity(intent);
     }
 
