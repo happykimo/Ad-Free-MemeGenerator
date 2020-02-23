@@ -14,13 +14,18 @@ import java.util.ArrayList;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
+    public interface OnItemClickListener{
+        void onItemClick(ImageUrl img);
+    }
+
     private ArrayList<ImageUrl> imageUrls;
     private Context context;
+    private final OnItemClickListener listener;
 
-    public DataAdapter(Context context, ArrayList<ImageUrl> imageUrls) {
+    public DataAdapter(Context context, ArrayList<ImageUrl> imageUrls, OnItemClickListener listener) {
         this.context = context;
         this.imageUrls = imageUrls;
-
+        this.listener = listener;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Glide.with(context).load(imageUrls.get(i).getImageUrl()).into(viewHolder.img);
+        viewHolder.bind(imageUrls.get(i), listener);
     }
 
     @Override
@@ -51,6 +57,17 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         public ViewHolder(View view) {
             super(view);
             img = view.findViewById(R.id.imageView);
+        }
+
+        public void bind(final ImageUrl img, final OnItemClickListener listener) {
+            //Picasso.with(itemView.getContext()).load(img.getImageUrl()).into((Target) img);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(img);
+                }
+            });
+
         }
     }
 

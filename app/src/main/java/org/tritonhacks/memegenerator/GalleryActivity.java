@@ -1,5 +1,6 @@
 package org.tritonhacks.memegenerator;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,19 @@ public class GalleryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         ArrayList imageUrlList = prepareData();
-        DataAdapter dataAdapter = new DataAdapter(getApplicationContext(), imageUrlList);
+        DataAdapter dataAdapter = new DataAdapter(getApplicationContext(), imageUrlList, new DataAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ImageUrl img) {
+                String url = img.getImageUrl();
+                System.out.println("URL: " + url );
+                Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_LONG).show();
+                final Intent intent = new Intent(GalleryActivity.this, EditMemeActivity.class);
+                Bundle b = new Bundle();
+                b.putString("url", url);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(dataAdapter);
 
         /*imageView.setOnClickListener(new View.OnClickListener(){
