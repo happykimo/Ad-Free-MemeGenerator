@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/temp_get_meme_textview"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text='This is the "Get Meme" activity' />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <ImageView
-        android:id="@+id/imgV_meme"
+        <ImageView
+            android:id="@+id/imgV_meme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true" />
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_get_another_meme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="70dp"
+        android:text="Get another one!" />
+
 </LinearLayout>
