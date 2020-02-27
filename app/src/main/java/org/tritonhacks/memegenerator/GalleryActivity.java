@@ -3,80 +3,73 @@ package org.tritonhacks.memegenerator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
+
     ImageView imageView;
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
+    ArrayList<MemeTemplate> templates = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        imageView = findViewById(R.id.imageView);
+        recyclerView = findViewById(R.id.recyclerView);
         gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        ArrayList imageUrlList = prepareData();
-        DataAdapter dataAdapter = new DataAdapter(getApplicationContext(), imageUrlList, new DataAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(ImageUrl img) {
-                String url = img.getImageUrl();
-                System.out.println("URL: " + url );
-                Toast.makeText(getApplicationContext(), "Item Clicked", Toast.LENGTH_LONG).show();
-                final Intent intent = new Intent(GalleryActivity.this, EditMemeActivity.class);
-                Bundle b = new Bundle();
-                b.putString("url", url);
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-        recyclerView.setAdapter(dataAdapter);
+        // Create GET request for meme templates
+        final String getMemeTemplatesApiUrl = "https://api.imgflip.com/get_memes";
+        final StringRequest r = new StringRequest(Request.Method.GET, getMemeTemplatesApiUrl,
+                response -> {
+                    // Get JSON array of meme template objects
+                    final JsonArray templatesArr = ((JsonObject) JsonParser.parseString(response))
+                            .getAsJsonObject("data")
+                            .getAsJsonArray("memes");
 
-        /*imageView.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick (View v){
-            Toast.makeText(GalleryActivity.this, "You clicked on ImageView", Toast.LENGTH_SHORT).show();
-        }
-        });*/
-    }
+                    // Populate list of meme templates from JSON array
+                    templates.ensureCapacity(templatesArr.size());
+                    for (final JsonElement templateElem : templatesArr) {
+                        final JsonObject templateObj = templateElem.getAsJsonObject();
+                        final String id = templateObj.get("id").getAsString();
+                        final String url = templateObj.get("url").getAsString();
+                        final int boxCount = templateObj.get("box_count").getAsInt();
+                        templates.add(new MemeTemplate(id, url, boxCount));
+                    }
 
-    private ArrayList prepareData() {
+                    // Populate recycler view with list of meme templates
+                    final DataAdapter dataAdapter = new DataAdapter(getApplicationContext(), templates, t -> {
+                        final Intent intent = new Intent(GalleryActivity.this, EditMemeActivity.class);
+                        intent.putExtra("id", t.getId());
+                        intent.putExtra("url", t.getUrl());
+                        intent.putExtra("boxCount", t.getBoxCount());
+                        startActivity(intent);
+                    });
+                    recyclerView.setAdapter(dataAdapter);
+                },
+                error -> Log.e("Volley request error", String.valueOf(error)));
 
-// here you should give your image URLs and that can be a link from the Internet
-        String imageUrls[] = {
-                "https://images.theconversation.com/files/38926/original/5cwx89t4-1389586191.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=926&fit=clip",
-                "https://www.21cpw.com/wp-content/uploads/2016/09/batman-meme-blank-1.jpg",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSrqvyRnWUYTbidqEOClDSm533Eda-2My1CJY_0-hUeGYiKjxIK",
-                "https://www.meme-arsenal.com/memes/1a07ebd5a3352c612920ab6954afd6fa.jpg",
-                "https://memeguy.com/photos/images/i-noticed-you-posted-a-meme-using-only-a-title-and-an-image-but-no-text-19782.jpg",
-                "https://imgflip.com/s/meme/Y-U-No.jpg",
-                "https://i.kym-cdn.com/photos/images/facebook/001/248/930/07e.jpg",
-                "https://www.nicepng.com/png/detail/30-306429_pngs-for-trolls-and-memes-you-don-t.png",
-                "https://i.redd.it/fwfdtcsk91e11.jpg",
-                "https://imgflip.com/s/meme/Kevin-Hart.jpg",
-                "https://i.ytimg.com/vi/r1s8pPVobGo/maxresdefault.jpg",
-                "https://imgflip.com/s/meme/Mocking-Spongebob.jpg",
-        };
-
-        ArrayList imageUrlList = new ArrayList<>();
-        for (int i = 0; i < imageUrls.length; i++) {
-            ImageUrl imageUrl = new ImageUrl();
-            imageUrl.setImageUrl(imageUrls[i]);
-            imageUrlList.add(imageUrl);
-        }
-        Log.d("MainActivity", "List count: " + imageUrlList.size());
-        return imageUrlList;
+        // Schedule GET request for meme templates
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(r);
     }
 }

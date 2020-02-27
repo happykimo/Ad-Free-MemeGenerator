@@ -6,68 +6,64 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
-    public interface OnItemClickListener{
-        void onItemClick(ImageUrl img);
+    public interface OnItemClickListener {
+        void onItemClick(MemeTemplate t);
     }
 
-    private ArrayList<ImageUrl> imageUrls;
+    private List<MemeTemplate> templates;
     private Context context;
-    private final OnItemClickListener listener;
+    private OnItemClickListener listener;
 
-    public DataAdapter(Context context, ArrayList<ImageUrl> imageUrls, OnItemClickListener listener) {
+    DataAdapter(Context context, List<MemeTemplate> templates, OnItemClickListener listener) {
         this.context = context;
-        this.imageUrls = imageUrls;
+        this.templates = templates;
         this.listener = listener;
     }
 
+    @NonNull
     @Override
     public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
-    /** gets the image url from adapter and passes to Glide API to load the image
+    /**
+     * gets the image url from adapter and passes to Glide API to load the image
      *
      * @param viewHolder
      * @param i
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Glide.with(context).load(imageUrls.get(i).getImageUrl()).into(viewHolder.img);
-        viewHolder.bind(imageUrls.get(i), listener);
+        Glide.with(context).load(templates.get(i).getUrl()).into(viewHolder.img);
+        viewHolder.bind(templates.get(i), listener);
     }
 
     @Override
     public int getItemCount() {
-        return imageUrls.size();
+        return templates.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             img = view.findViewById(R.id.imageView);
         }
 
-        public void bind(final ImageUrl img, final OnItemClickListener listener) {
-            //Picasso.with(itemView.getContext()).load(img.getImageUrl()).into((Target) img);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(img);
-                }
-            });
-
+        void bind(MemeTemplate t, OnItemClickListener listener) {
+            itemView.setOnClickListener(v -> listener.onItemClick(t));
         }
     }
 
