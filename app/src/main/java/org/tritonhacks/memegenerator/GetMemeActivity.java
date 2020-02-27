@@ -107,9 +107,6 @@ public class GetMemeActivity extends AppCompatActivity {
         });
 
         queue.add(stringRequest);
-
-        // Add the request to the RequestQueue. NOT DONE -Alex
-        // SingletonRQ.getInstance(this).addToRequestQueue(jsonObjRequest);
     }
 
     /**
