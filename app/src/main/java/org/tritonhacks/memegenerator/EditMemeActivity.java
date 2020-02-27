@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -16,6 +17,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
 
 public class EditMemeActivity extends AppCompatActivity {
 
@@ -49,38 +52,43 @@ public class EditMemeActivity extends AppCompatActivity {
     }
 
     private void fetchCustomMeme() {
-        // Build URL
-        final StringBuilder urlBuilder = new StringBuilder();
-        final String baseUrl = "https://api.imgflip.com/caption_image?";
-        urlBuilder.append(baseUrl);
-        urlBuilder.append("username=homelessman023");
-        urlBuilder.append("&");
-        urlBuilder.append("password=password");
-        urlBuilder.append("&");
-        urlBuilder.append("template_id=").append(templateId);
-        urlBuilder.append("&");
+        // Build request body
+        final StringBuilder requestBody = new StringBuilder();
+        requestBody.append("username=homelessman023");
+        requestBody.append("&");
+        requestBody.append("password=password");
+        requestBody.append("&");
+        requestBody.append("template_id=").append(templateId);
+        requestBody.append("&");
         for (int i = 0; i < boxCount; i++) {
             final String text = editTexts[i].getText().toString();
-            urlBuilder.append("text").append(i).append("=").append(text);
-            urlBuilder.append("&");
+            requestBody.append(String.format(Locale.US, "boxes[%d][text]=%s", i, text));
+            requestBody.append("&");
         }
-        final String getCustomMemeApiUrl = urlBuilder.toString();
+        final String createCustomMemeApiUrl = "https://api.imgflip.com/caption_image";
 
-        // Create GET request to get custom meme
-        final StringRequest r = new StringRequest(Request.Method.GET, getCustomMemeApiUrl,
+        // Create POST request to create custom meme
+        final StringRequest r = new StringRequest(Request.Method.POST, createCustomMemeApiUrl,
                 response -> {
-                    // Get URL of custom meme
+                    // Get URL of just-created custom meme
                     final String customMemeUrl = ((JsonObject) JsonParser.parseString(response))
                             .getAsJsonObject("data")
                             .get("url")
                             .getAsString();
 
-                    // Display custom meme
+                    // Show custom meme
                     Picasso.get().load(customMemeUrl).into(imageView);
                 },
-                error -> Log.e("Volley request error", String.valueOf(error)));
+                error -> Log.e("Volley request error", String.valueOf(error))) {
 
-        // Schedule GET request for custom meme
+            // We must override this to actually include the request body
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return requestBody.toString().getBytes();
+            }
+        };
+
+        // Schedule POST request for custom meme
         requestQueue.add(r);
     }
 
