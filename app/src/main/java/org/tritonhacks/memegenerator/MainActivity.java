@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initViews();
+        // TODO
     }
 
     private void onGetMemeClicked() {
@@ -21,15 +21,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onCreateMemeClicked() {
-        final Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
-        startActivity(intent);
+        // TODO
     }
 
     private void initViews() {
         final Button getMeme = findViewById(R.id.btn_get_a_meme);
         getMeme.setOnClickListener(v -> onGetMemeClicked());
 
-        final Button createMeme = findViewById(R.id.btn_create_a_meme);
-        createMeme.setOnClickListener(v -> onCreateMemeClicked());
+        // TODO
     }
 }
