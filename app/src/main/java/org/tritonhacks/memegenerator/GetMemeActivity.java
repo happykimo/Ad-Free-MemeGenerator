@@ -12,19 +12,25 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class GetMemeActivity extends AppCompatActivity {
 
-    final static String URL = "https://meme-api.herokuapp.com/gimme/cleanmemes/100";
+    final static String URL = "https://meme-api.herokuapp.com/gimme/cleanmemes/50";
+    final static String POSTLINK_KEY = "postLink";
+    final static String SUBREDDIT_KEY = "subreddit";
+    final static String TITLE_KEY = "title";
+    final static String URL_KEY = "url";
 
-    private static JsonObject randomMeme;
-    private static JsonArray memeList;
-    private ImageView imgV_Meme;
+    private ArrayList<RandomMeme> memeList;
     private String memeUrl;
+
+    private ImageView imgVMeme;
+    private Button btnGetAnotherMeme;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -32,27 +38,25 @@ public class GetMemeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_meme);
 
         initViews();
-        getMeme();
+
+        if(savedInstanceState == null) {
+            getMeme();
+        }
     }
 
     /**
      * Initializes all necessary views.
      */
     private void initViews() {
-        final Button getAnotherMeme = findViewById(R.id.btn_get_another_meme);
-        getAnotherMeme.setOnClickListener(v -> getMeme());
-        imgV_Meme = findViewById(R.id.imgV_meme);
+        // TODO: Assign references of UI components to instance variables
+        // TODO: set the button's click listener to call getMeme()
     }
 
     /**
      * Get a meme either through request or load the meme if list is not empty.
      */
     private void getMeme() {
-        if (isMemeListEmpty()) {
-            getRequest();
-        } else {
-            loadMeme();
-        }
+        // TODO
     }
 
     /**
@@ -62,7 +66,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("url", memeUrl);
+        outState.putString(URL_KEY, this.memeUrl);
         super.onSaveInstanceState(outState);
     }
 
@@ -73,8 +77,8 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        memeUrl = savedInstanceState.getString("url");
-        Picasso.get().load(memeUrl).into(imgV_Meme);
+        this.memeUrl = savedInstanceState.getString(URL_KEY);
+        Picasso.get().load(this.memeUrl).into(this.imgVMeme);
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -82,8 +86,8 @@ public class GetMemeActivity extends AppCompatActivity {
      * Helper method to load the meme image onto ImageView
      */
     private void loadMeme() {
-        memeUrl = popMeme();
-        Picasso.get().load(memeUrl).into(imgV_Meme);
+        // TODO: set this.memeUrl to the url of the RandomMeme object pulled off from memeList
+        Picasso.get().load(this.memeUrl).into(this.imgVMeme);
     }
 
     /**
@@ -92,21 +96,52 @@ public class GetMemeActivity extends AppCompatActivity {
     private void getRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Request a string response the provided URL.
+        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
                 response -> {
 
-                    randomMeme = (JsonObject) JsonParser.parseString(response);
-                    memeList = randomMeme.getAsJsonArray("memes");
+                    // Gets 50 to 100 memes formatted as a json String and converts it into a
+                    // generic JsonObject
+                    JsonObject randomMemes = (JsonObject) JsonParser.parseString(response);
+
+                    // Converts the JsonObject (randomMemes) into a JsonArray
+                    JsonArray jsonMemesArray = randomMemes.getAsJsonArray("memes");
+
+                    // Turns the JsonArray (jsonMemesArray) into an ArrayList of RandomMeme objects
+                    // and store it inside this.memeList, which contains RandomMeme objects
+                    this.memeList = jsonArrayToMemeList(jsonMemesArray);
+
+                    // load a meme from memeList
                     loadMeme();
 
                 }, error -> {
-            // make a Toast message to show error. Needs to be polished.
-            // TODO
+            // make a Toast message to show error
             Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
         });
 
         queue.add(stringRequest);
+    }
+
+    /**
+     * Converts a JsonArray into a RandomMeme ArrayList
+     * @param jsonArray
+     */
+    private ArrayList<RandomMeme> jsonArrayToMemeList(JsonArray jsonArray) {
+        // TODO: create an ArrayList called randomMemeList that will be returned at the end
+
+        for(int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = ((JsonObject) jsonArray.get(i));
+            String postLink = jsonObject.get(POSTLINK_KEY).getAsString();
+            String subreddit = jsonObject.get(SUBREDDIT_KEY).getAsString();
+            String title = jsonObject.get(TITLE_KEY).getAsString();
+            String url = jsonObject.get(URL_KEY).getAsString();
+
+            // TODO: create a RandomMeme object, passing in values
+
+            randomMemeList.add(randomMeme);
+        }
+
+        return randomMemeList;
     }
 
     /**
@@ -115,9 +150,8 @@ public class GetMemeActivity extends AppCompatActivity {
      * @return url as a String
      */
     private String popMeme() {
-        JsonElement meme = memeList.remove(memeList.size() - 1);
-        JsonElement jsonUrl = ((JsonObject) meme).get("url");
-        return jsonUrl.getAsString();
+        // TODO: remove/pop off a RandomMeme object from memeList and return its url.
+        return null;
     }
 
     /**
@@ -126,6 +160,7 @@ public class GetMemeActivity extends AppCompatActivity {
      * @return true if memeList is empty, false otherwise
      */
     private boolean isMemeListEmpty() {
-        return memeList == null || memeList.size() == 0;
+        // TODO
+        return false;
     }
 }

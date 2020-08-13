@@ -31,13 +31,9 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        initViews();
 
-        imageView = findViewById(R.id.imageView);
-        recyclerView = findViewById(R.id.recyclerView);
-        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        // Create GET request for meme templates
+        // Create GET request for meme templates (Step 1)
         final String getMemeTemplatesApiUrl = "https://api.imgflip.com/get_memes";
         final StringRequest r = new StringRequest(Request.Method.GET, getMemeTemplatesApiUrl,
                 response -> {
@@ -46,30 +42,45 @@ public class GalleryActivity extends AppCompatActivity {
                             .getAsJsonObject("data")
                             .getAsJsonArray("memes");
 
-                    // Populate list of meme templates from JSON array
-                    templates.ensureCapacity(templatesArr.size());
+                    // Populate list of meme templates from JSON array (Step 2)
+                    this.templates.ensureCapacity(templatesArr.size());
                     for (final JsonElement templateElem : templatesArr) {
                         final JsonObject templateObj = templateElem.getAsJsonObject();
                         final String id = templateObj.get("id").getAsString();
                         final String url = templateObj.get("url").getAsString();
                         final int boxCount = templateObj.get("box_count").getAsInt();
-                        templates.add(new MemeTemplate(id, url, boxCount));
+
+                        // TODO: create a new MemeTemplate object and add it to this.templates (Step 3)
+
                     }
 
-                    // Populate recycler view with list of meme templates
-                    final DataAdapter dataAdapter = new DataAdapter(getApplicationContext(), templates, t -> {
-                        final Intent intent = new Intent(GalleryActivity.this, EditMemeActivity.class);
+                    // Populate recycler view with list of meme templates (Step 4)
+                    final DataAdapter dataAdapter = new DataAdapter(getApplicationContext(),
+                            this.templates, t -> {
+                        final Intent intent = new Intent(GalleryActivity.this,
+                                EditMemeActivity.class);
                         intent.putExtra("id", t.getId());
-                        intent.putExtra("url", t.getUrl());
-                        intent.putExtra("boxCount", t.getBoxCount());
+
+                        // TODO: fill the intent with more information: url and boxCount (Step 5)
+
                         startActivity(intent);
                     });
-                    recyclerView.setAdapter(dataAdapter);
+                    this.recyclerView.setAdapter(dataAdapter);
                 },
                 error -> Log.e("Volley request error", String.valueOf(error)));
 
         // Schedule GET request for meme templates
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(r);
+    }
+
+    /**
+     * Initializes all necessary views.
+     */
+    private void initViews() {
+        this.imageView = findViewById(R.id.imageView);
+        this.recyclerView = findViewById(R.id.recyclerView);
+        this.gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        this.recyclerView.setLayoutManager(this.gridLayoutManager);
     }
 }
