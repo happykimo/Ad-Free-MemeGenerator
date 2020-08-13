@@ -18,7 +18,6 @@ public class RandomMeme {
         this.postLink = postLink;
         // TODO: complete the rest
     }
-<<<<<<< HEAD
 
     /**
      * Returns the post link.
@@ -35,9 +34,3 @@ public class RandomMeme {
 
     // TODO: implement all getters and setters for the rest of the instance variables
 }
-=======
-    
-    // TODO
-    
-}
->>>>>>> 6dc57a37e1ff7847f6aba0190756065dd93c2c09
