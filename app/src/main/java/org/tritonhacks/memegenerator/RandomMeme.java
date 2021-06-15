@@ -3,6 +3,7 @@ package org.tritonhacks.memegenerator;
 public class RandomMeme {
 
     private String postLink;
+
     private String subreddit;
     private String title;
     private String url;
@@ -16,7 +17,10 @@ public class RandomMeme {
      */
     public RandomMeme(String postLink, String subreddit, String title, String url) {
         this.postLink = postLink;
-        // TODO: complete the rest
+        this.subreddit = subreddit;
+        this.title = title;
+
+        // TODO: set url field
     }
 
     /**
@@ -32,5 +36,35 @@ public class RandomMeme {
      */
     public void setPostLink(String postLink) { this.postLink = postLink; }
 
-    // TODO: implement all getters and setters for the rest of the instance variables
+    /**
+     * Returns the subreddit.
+     */
+    public String getSubreddit() {
+        return subreddit;
+    }
+
+    /**
+     * Set subreddit.
+     * @param subreddit a specific community in Reddit
+     */
+    public void setSubreddit(String subreddit) {
+        this.subreddit = subreddit;
+    }
+
+    /**
+     * Returns the title of meme.
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Set title.
+     * @param postLink title of meme
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    // TODO: implement getter and setter for url
 }

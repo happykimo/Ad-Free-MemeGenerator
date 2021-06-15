@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // TODO
+
+        // TODO: Call initViews()
     }
 
     /**
@@ -30,16 +31,19 @@ public class MainActivity extends AppCompatActivity {
      * The method called when Create A Meme button is clicked.
      */
     private void onCreateMemeClicked() {
-        // TODO
+        // TODO: Look at onGetMemeClicked for example
     }
 
     /**
      * Initializes all necessary views.
      */
     private void initViews() {
+        // Example: Gets the button object with the id "btn_get_a_meme" and make it so that when it
+        //          is clicked, it calls the method onGetMemeClicked()
         this.getMeme = findViewById(R.id.btn_get_a_meme);
         this.getMeme.setOnClickListener(v -> onGetMemeClicked());
 
-        // TODO
+        // TODO: Create a Button object and set its onClickListener to call
+        //       the correct method
     }
 }

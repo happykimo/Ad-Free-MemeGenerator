@@ -42,21 +42,22 @@ public class EditMemeActivity extends AppCompatActivity {
         this.requestQueue = Volley.newRequestQueue(this);
         initViews();
 
-        String templateId = getIntent().getStringExtra("id");
+        // TODO: extract out the id from the intent
+        String templateId = null;
 
-        // TODO: extract out the url from the intent and name it imageUrl
-
+        String imageUrl = getIntent().getStringExtra("url");
         int boxCount = getIntent().getIntExtra("boxCount", 0);
 
         this.createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: call fetchCustomMeme with the correct arguments
+
             }
         });
 
         // Set visibility of text views
-        // TODO: pass in the correct argument for setVisibility
+        // TODO: set visibility to View.VISIBLE instead of View.GONE
         for (int i = 0; i < boxCount; i++) this.editTexts[i].setVisibility(View.GONE);
 
         // loads meme image into the imageView
@@ -131,7 +132,8 @@ public class EditMemeActivity extends AppCompatActivity {
         this.imageView = findViewById(R.id.imageView1);
         this.createBtn = findViewById(R.id.create_meme);
 
-        // TODO: initialize the five EditText views here
+        this.editText1 = findViewById(R.id.editText1);
+        // TODO: initialize the rest of the four EditText views here
 
         this.editTexts = new EditText[]{ this.editText1, this.editText2, this.editText3,
                 this.editText4, this.editText5 };

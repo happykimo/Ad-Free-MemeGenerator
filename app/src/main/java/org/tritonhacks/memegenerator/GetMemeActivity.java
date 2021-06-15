@@ -86,7 +86,9 @@ public class GetMemeActivity extends AppCompatActivity {
      * Helper method to load the meme image onto ImageView
      */
     private void loadMeme() {
-        // TODO: set this.memeUrl to the url of the RandomMeme object pulled off from memeList
+        // TODO: set this.memeUrl to the url of the RandomMeme object pulled off from this.memeList
+
+
         Picasso.get().load(this.memeUrl).into(this.imgVMeme);
     }
 
@@ -127,7 +129,8 @@ public class GetMemeActivity extends AppCompatActivity {
      * @param jsonArray
      */
     private ArrayList<RandomMeme> jsonArrayToMemeList(JsonArray jsonArray) {
-        // TODO: create an ArrayList called randomMemeList that will be returned at the end
+        // TODO: construct an ArrayList called randomMemeList that will be returned at the end
+        ArrayList<RandomMeme> randomMemeList = null;
 
         for(int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = ((JsonObject) jsonArray.get(i));
@@ -136,7 +139,8 @@ public class GetMemeActivity extends AppCompatActivity {
             String title = jsonObject.get(TITLE_KEY).getAsString();
             String url = jsonObject.get(URL_KEY).getAsString();
 
-            // TODO: create a RandomMeme object, passing in values
+            // TODO: construct a RandomMeme object, passing in the variables above
+            RandomMeme randomMeme = null;
 
             randomMemeList.add(randomMeme);
         }
@@ -150,7 +154,7 @@ public class GetMemeActivity extends AppCompatActivity {
      * @return url as a String
      */
     private String popMeme() {
-        // TODO: remove/pop off a RandomMeme object from memeList and return its url.
+        // TODO: remove/pop off a RandomMeme object from this.memeList and return its url.
         return null;
     }
 
