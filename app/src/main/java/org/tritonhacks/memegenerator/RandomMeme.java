@@ -27,7 +27,7 @@ public class RandomMeme {
      * Returns the post link.
      */
     public String getPostLink() {
-        return postLink;
+        return this.postLink;
     }
 
     /**
@@ -40,7 +40,7 @@ public class RandomMeme {
      * Returns the subreddit.
      */
     public String getSubreddit() {
-        return subreddit;
+        return this.subreddit;
     }
 
     /**
@@ -55,7 +55,7 @@ public class RandomMeme {
      * Returns the title of meme.
      */
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     /**
