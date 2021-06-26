@@ -1,5 +1,5 @@
 package org.tritonhacks.memegenerator;
-
+//test
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
      * The method called when Create A Meme button is clicked.
      */
     private void onCreateMemeClicked() {
-        // TODO: Look at onGetMemeClicked for example
+        final Intent intent = new Intent( MainActivity.this, GalleryActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -45,5 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: Create a Button object and set its onClickListener to call
         //       the correct method
+        this.createMeme = findViewById(R.id.btn_create_a_meme);
+        this.createMeme.setOnClickListener(v -> onCreateMemeClicked());
     }
 }
