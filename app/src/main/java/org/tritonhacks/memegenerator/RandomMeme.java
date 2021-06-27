@@ -15,12 +15,14 @@ public class RandomMeme {
      * @param title title of meme
      * @param url url to meme
      */
-    public RandomMeme(String postLink, String subreddit, String title, String url) {
+    public RandomMeme(String postLink, String subreddit, String title, String initUrl) {
+
         this.postLink = postLink;
         this.subreddit = subreddit;
         this.title = title;
 
         // TODO: set url field
+        url=initUrl;
     }
 
     /**
@@ -67,4 +69,13 @@ public class RandomMeme {
     }
 
     // TODO: implement getter and setter for url
+
+    public String getUrl() {return this.url; }
+    /**
+    *Returns the url of the meme.
+     */
+    public void setUrl(String url){ this.url = url;}
+    /**
+     * Set url
+     */
 }

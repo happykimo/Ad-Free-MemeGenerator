@@ -17,6 +17,7 @@ class MemeTemplate {
         this.url = url;
 
         // TODO: set boxCount field
+        this.boxCount = boxCount;
     }
 
     /**
@@ -50,5 +51,15 @@ class MemeTemplate {
     }
 
     // TODO: implement getter and setter for boxCount
+    public int getBoxCount(){ return boxCount; }
 
+    /**
+     * Returns boxCount
+     */
+
+    public void setBoxCount(int boxCount){ this.boxCount=boxCount;}
+
+    /**
+     * Sets boxCount
+     */
 }

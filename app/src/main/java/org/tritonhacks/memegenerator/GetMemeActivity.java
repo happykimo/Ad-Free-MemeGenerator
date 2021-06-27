@@ -40,7 +40,7 @@ public class GetMemeActivity extends AppCompatActivity {
         initViews();
 
         if(savedInstanceState == null) {
-            getMeme();
+             getMeme();
         }
     }
 
@@ -50,6 +50,10 @@ public class GetMemeActivity extends AppCompatActivity {
     private void initViews() {
         // TODO: Assign references of UI components to instance variables
         // TODO: set the button's click listener to call getMeme()
+        this.btnGetAnotherMeme = findViewById(R.id.btn_get_another_meme);
+        this.btnGetAnotherMeme.setOnClickListener(v -> getMeme());
+        this.imgVMeme = findViewById(R.id.imgV_meme);
+
     }
 
     /**
@@ -57,6 +61,12 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private void getMeme() {
         // TODO
+        if(isMemeListEmpty()==true){
+            getRequest();
+        }
+        else {
+            loadMeme();
+        }
     }
 
     /**
@@ -87,8 +97,8 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private void loadMeme() {
         // TODO: set this.memeUrl to the url of the RandomMeme object pulled off from this.memeList
-
-
+        this.memeUrl=popMeme();
+        System.out.println(popMeme());
         Picasso.get().load(this.memeUrl).into(this.imgVMeme);
     }
 
@@ -111,6 +121,7 @@ public class GetMemeActivity extends AppCompatActivity {
 
                     // Turns the JsonArray (jsonMemesArray) into an ArrayList of RandomMeme objects
                     // and store it inside this.memeList, which contains RandomMeme objects
+                    System.out.println("getRequest() is being executed--------------------------------------------------");
                     this.memeList = jsonArrayToMemeList(jsonMemesArray);
 
                     // load a meme from memeList
@@ -130,7 +141,7 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private ArrayList<RandomMeme> jsonArrayToMemeList(JsonArray jsonArray) {
         // TODO: construct an ArrayList called randomMemeList that will be returned at the end
-        ArrayList<RandomMeme> randomMemeList = null;
+        ArrayList<RandomMeme> randomMemeList = new ArrayList<RandomMeme>();
 
         for(int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = ((JsonObject) jsonArray.get(i));
@@ -140,11 +151,11 @@ public class GetMemeActivity extends AppCompatActivity {
             String url = jsonObject.get(URL_KEY).getAsString();
 
             // TODO: construct a RandomMeme object, passing in the variables above
-            RandomMeme randomMeme = null;
+            RandomMeme randomMeme = new RandomMeme(postLink,subreddit,title,url);
 
             randomMemeList.add(randomMeme);
         }
-
+        System.out.println(randomMemeList);
         return randomMemeList;
     }
 
@@ -155,7 +166,10 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private String popMeme() {
         // TODO: remove/pop off a RandomMeme object from this.memeList and return its url.
-        return null;
+        String resultUrl=memeList.get(0).getUrl();
+        memeList.remove(0);
+        System.out.println(resultUrl);
+        return resultUrl;
     }
 
     /**
@@ -165,6 +179,13 @@ public class GetMemeActivity extends AppCompatActivity {
      */
     private boolean isMemeListEmpty() {
         // TODO
-        return false;
+        if(this.memeList==null){
+            return true;
+        }
+        else if (memeList.size() > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
