@@ -47,18 +47,23 @@ public class EditMemeActivity extends AppCompatActivity {
 
         String imageUrl = getIntent().getStringExtra("url");
         int boxCount = getIntent().getIntExtra("boxCount", 0);
-
+        String id = getIntent().getStringExtra("id");
+        fetchCustomMeme(id,boxCount);
         this.createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: call fetchCustomMeme with the correct arguments
+                fetchCustomMeme(id,boxCount);
 
             }
         });
 
         // Set visibility of text views
         // TODO: set visibility to View.VISIBLE instead of View.GONE
-        for (int i = 0; i < boxCount; i++) this.editTexts[i].setVisibility(View.GONE);
+        for (int i = 0; i < boxCount; i++) {
+            this.editTexts[i].setVisibility(View.VISIBLE);
+            this.editTexts[i].setText("");
+        }
 
         // loads meme image into the imageView
         Picasso.get().load(imageUrl).into(this.imageView);
@@ -83,7 +88,7 @@ public class EditMemeActivity extends AppCompatActivity {
                             .get("url")
                             .getAsString();
 
-                    // Show custom meme
+
                     Picasso.get().load(customMemeUrl).into(this.imageView);
                 },
                 error -> Log.e("Volley request error", String.valueOf(error))) {
@@ -107,7 +112,6 @@ public class EditMemeActivity extends AppCompatActivity {
      */
     private String buildRequestBody(String templateId, int boxCount) {
         final StringBuilder requestBody = new StringBuilder();
-
         requestBody.append("username=");
         requestBody.append(USERNAME);
         requestBody.append("&");
@@ -134,6 +138,11 @@ public class EditMemeActivity extends AppCompatActivity {
 
         this.editText1 = findViewById(R.id.editText1);
         // TODO: initialize the rest of the four EditText views here
+        this.editText2 = findViewById(R.id.editText2);
+        this.editText3 = findViewById(R.id.editText3);
+        this.editText4 = findViewById(R.id.editText4);
+        this.editText5 = findViewById(R.id.editText5);
+
 
         this.editTexts = new EditText[]{ this.editText1, this.editText2, this.editText3,
                 this.editText4, this.editText5 };

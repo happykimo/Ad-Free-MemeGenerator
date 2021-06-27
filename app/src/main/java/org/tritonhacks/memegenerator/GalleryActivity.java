@@ -51,7 +51,8 @@ public class GalleryActivity extends AppCompatActivity {
                         final int boxCount = templateObj.get("box_count").getAsInt();
 
                         // TODO: create a new MemeTemplate object and add it to this.templates (Step 3)
-
+                        MemeTemplate memeTemplate = new MemeTemplate(id,url,boxCount);
+                        templates.add(memeTemplate);
                     }
 
                     // Populate recycler view with list of meme templates (Step 4)
@@ -62,6 +63,8 @@ public class GalleryActivity extends AppCompatActivity {
                         intent.putExtra("id", t.getId());
 
                         // TODO: fill the intent with more information: url and boxCount (Step 5)
+                        intent.putExtra("url", t.getUrl());
+                        intent.putExtra("boxCount",t.getBoxCount());
 
                         startActivity(intent);
                     });

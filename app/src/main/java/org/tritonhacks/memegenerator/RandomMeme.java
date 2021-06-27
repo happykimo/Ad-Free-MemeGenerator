@@ -3,7 +3,6 @@ package org.tritonhacks.memegenerator;
 public class RandomMeme {
 
     private String postLink;
-
     private String subreddit;
     private String title;
     private String url;
@@ -19,6 +18,7 @@ public class RandomMeme {
         this.postLink = postLink;
         this.subreddit = subreddit;
         this.title = title;
+        this.url = url;
 
         // TODO: set url field
     }
@@ -67,4 +67,8 @@ public class RandomMeme {
     }
 
     // TODO: implement getter and setter for url
+
+    public String getUrl() {return this.url;}
+    public void setUrl(String url) {this.url = url;}
 }
+
