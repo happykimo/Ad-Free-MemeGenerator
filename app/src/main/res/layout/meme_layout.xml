@@ -3,8 +3,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             android:background="@android:color/darker_gray"
@@ -51,13 +51,31 @@
                 android:layout_height="wrap_content"
                 android:hint="Text 5"
                 android:visibility="invisible" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
 
-        <Button
-                android:id="@+id/create_meme"
-                android:layout_width="wrap_content"
+         >
+            <Button
+            android:id="@+id/btn_create_meme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_2"
+            android:fontFamily="monospace"
+                android:layout_weight="1"
+            android:text="Create!" />
+
+            <Button
+                android:id="@+id/btn_save_meme"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custom_button_2"
+                android:background="@drawable/custom_button"
+                android:layout_weight="1"
                 android:fontFamily="monospace"
-                android:text="Create!" />
+                android:text="@string/save_to_gallery_button" />
+        </LinearLayout>
+
+
     </LinearLayout>
 </ScrollView>

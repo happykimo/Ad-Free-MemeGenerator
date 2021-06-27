@@ -1,6 +1,10 @@
 package org.tritonhacks.memegenerator;
 
+import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,6 +23,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Locale;
 
 public class EditMemeActivity extends AppCompatActivity {
@@ -25,14 +32,15 @@ public class EditMemeActivity extends AppCompatActivity {
     final static String USERNAME = "homelessman023";
     final static String PASSWORD = "password";
 
-    ImageView imageView;
-    EditText editText1;
-    EditText editText2;
-    EditText editText3;
-    EditText editText4;
-    EditText editText5;
-    EditText[] editTexts;
-    Button createBtn;
+    private ImageView imageView;
+    private EditText editText1;
+    private EditText editText2;
+    private EditText editText3;
+    private EditText editText4;
+    private EditText editText5;
+    private EditText[] editTexts;
+    private Button createBtn;
+    private Button btnSaveToGallery;
     RequestQueue requestQueue;
 
     @Override
@@ -41,6 +49,12 @@ public class EditMemeActivity extends AppCompatActivity {
         setContentView(R.layout.meme_layout);
         this.requestQueue = Volley.newRequestQueue(this);
         initViews();
+
+        ActivityCompat.requestPermissions(EditMemeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        ActivityCompat.requestPermissions(EditMemeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        /**
+         * Permissions Request
+         */
 
         // TODO: extract out the id from the intent
         String templateId = null;
@@ -126,12 +140,45 @@ public class EditMemeActivity extends AppCompatActivity {
         return requestBody.toString();
     }
 
+    private void saveToGallery(){
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+
+        FileOutputStream outputStream = null;
+        File file = Environment.getExternalStorageDirectory();
+        File dir = new File(file.getAbsolutePath() + "/TritonMemes");
+        dir.mkdirs();
+
+        String fileName = String.format("%d.png", System.currentTimeMillis());
+        File outFile = new File(dir,fileName);
+        try{
+            outputStream = new FileOutputStream(outFile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        try{
+            outputStream.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            outputStream.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Initializes all necessary views.
      */
     private void initViews() {
         this.imageView = findViewById(R.id.imageView1);
-        this.createBtn = findViewById(R.id.create_meme);
+        this.createBtn = findViewById(R.id.btn_create_meme);
+
+        this.btnSaveToGallery=findViewById(R.id.btn_save_meme);
+        this.btnSaveToGallery.setOnClickListener(v -> saveToGallery());
 
         this.editText1 = findViewById(R.id.editText1);
         // TODO: initialize the rest of the four EditText views here
