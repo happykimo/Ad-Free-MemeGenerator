@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Meme Generator</string>
+    <string name="app_name">Triton Memes</string>
+    <string name="get_meme_button">Get A Meme</string>
+    <string name="create_meme_button">Create A Meme</string>
 </resources>

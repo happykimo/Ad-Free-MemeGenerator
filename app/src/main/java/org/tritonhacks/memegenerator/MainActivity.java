@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ImageView TritonHacksLogo = (ImageView) findViewById(R.id.TritonHacksLogo);
+        TritonHacksLogo.setImageResource(R.drawable.triton_hacks_logo);
+        /**
+         * code for logo in the main activity
+         */
 
         // TODO: Call initViews()
         initViews();

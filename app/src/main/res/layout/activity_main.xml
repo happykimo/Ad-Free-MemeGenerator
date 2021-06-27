@@ -8,25 +8,6 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btn_create_a_meme"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginLeft="152dp"
-        android:layout_marginEnd="152dp"
-        android:layout_marginRight="152dp"
-        android:text="Create a meme"
-        android:textSize="20sp"
-        android:fontFamily="monospace"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_get_a_meme"
-        app:layout_constraintVertical_bias="0.181"
-        android:background="@drawable/custom_button_2"/>
-
-    <Button
         android:id="@+id/btn_get_a_meme"
         android:layout_width="250dp"
         android:layout_height="60dp"
@@ -34,15 +15,52 @@
         android:layout_marginLeft="152dp"
         android:layout_marginEnd="152dp"
         android:layout_marginRight="152dp"
-        android:text="Get a meme"
-        android:textSize="20sp"
-        android:fontFamily="monospace"
+        android:background="@drawable/custom_button"
+        app:fontFamily="monospace"
+        android:text="@string/get_meme_button"
         android:textAllCaps="false"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42"
-        android:background="@drawable/custom_button"/>
+        app:layout_constraintVertical_bias="0.581" />
+
+    <Button
+        android:id="@+id/btn_create_a_meme"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginLeft="152dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginRight="152dp"
+        android:background="@drawable/custom_button_2"
+        app:fontFamily="monospace"
+        android:text="@string/create_meme_button"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_get_a_meme"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <ImageView
+        android:id="@+id/TritonHacksLogo"
+        android:layout_width="168dp"
+        android:layout_height="165dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginLeft="152dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginRight="152dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.242"
+        app:srcCompat="@android:drawable/menuitem_background" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
