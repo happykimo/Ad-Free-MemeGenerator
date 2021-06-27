@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Text 1"
+            android:text="Text 1"
             android:visibility="gone" />
 
         <EditText
@@ -29,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Text 2"
+            android:text="Text 2"
             android:visibility="gone" />
 
         <EditText
@@ -36,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Text 3"
+            android:text="Text 3"
             android:visibility="gone" />
 
         <EditText
@@ -43,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Text 4"
+            android:text="Text 4"
             android:visibility="gone" />
 
         <EditText
@@ -50,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Text 5"
+            android:text="Text 5"
             android:visibility="gone" />
         <LinearLayout
             android:layout_width="match_parent"

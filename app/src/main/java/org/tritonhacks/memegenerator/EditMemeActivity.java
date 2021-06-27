@@ -64,6 +64,8 @@ public class EditMemeActivity extends AppCompatActivity {
         int boxCount = getIntent().getIntExtra("boxCount", 0);
         String id = getIntent().getStringExtra("id");
 
+        fetchCustomMeme(id,boxCount);
+
         this.createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +85,10 @@ public class EditMemeActivity extends AppCompatActivity {
 
         // Set visibility of text views
         // TODO: set visibility to View.VISIBLE instead of View.GONE
-        for (int i = 0; i < boxCount; i++) this.editTexts[i].setVisibility(View.VISIBLE);
+        for (int i = 0; i < boxCount; i++){
+            this.editTexts[i].setVisibility(View.VISIBLE);
+            this.editTexts[i].setText("");
+        }
 
         // loads meme image into the imageView
         Picasso.get().load(imageUrl).into(this.imageView);
