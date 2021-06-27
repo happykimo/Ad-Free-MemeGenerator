@@ -17,6 +17,8 @@ import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class GetMemeActivity extends AppCompatActivity {
 
