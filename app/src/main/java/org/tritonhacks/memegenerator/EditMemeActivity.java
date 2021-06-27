@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -67,7 +68,13 @@ public class EditMemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: call fetchCustomMeme with the correct arguments
-                fetchCustomMeme(id,boxCount);
+                for (int i = 0; i < boxCount;i++) {
+                    if(!editTexts[i].getText().toString().equals("")){
+                        fetchCustomMeme(id, boxCount);
+                        return;
+                    }
+                }
+                    Toast.makeText(getApplicationContext(),"Type in the Text Fields",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -140,6 +147,7 @@ public class EditMemeActivity extends AppCompatActivity {
         return requestBody.toString();
     }
 
+
     private void saveToGallery(){
         BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
@@ -167,6 +175,7 @@ public class EditMemeActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        Toast.makeText(getApplicationContext(),"Saved in Photos",Toast.LENGTH_SHORT).show();
 
     }
 

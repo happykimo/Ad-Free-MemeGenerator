@@ -39,7 +39,8 @@
         android:layout_weight="1"
         android:background="@drawable/custom_button_2"
         android:text="@string/save_to_gallery_button"
-        app:fontFamily="monospace" />
+        app:fontFamily="monospace"
+        />
 </LinearLayout>
 
 

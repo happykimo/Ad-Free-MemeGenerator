@@ -221,7 +221,7 @@ public class GetMemeActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        Toast.makeText(getApplicationContext(),"Saved in Photos",Toast.LENGTH_SHORT).show();
     }
 
 
