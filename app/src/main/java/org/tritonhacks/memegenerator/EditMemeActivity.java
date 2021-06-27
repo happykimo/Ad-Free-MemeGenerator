@@ -68,6 +68,9 @@ public class EditMemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: call fetchCustomMeme with the correct arguments
+                /**
+                 * fixes the "null" bug
+                 */
                 for (int i = 0; i < boxCount;i++) {
                     if(!editTexts[i].getText().toString().equals("")){
                         fetchCustomMeme(id, boxCount);
