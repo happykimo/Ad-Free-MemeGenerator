@@ -2,4 +2,6 @@
     <string name="app_name">Triton Memes</string>
     <string name="get_meme_button">Get A Meme</string>
     <string name="create_meme_button">Create A Meme</string>
+    <string name="save_to_gallery_button">Save To Gallery</string>
+    <string name="get_another_one">Get Another One!</string>
 </resources>

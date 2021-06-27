@@ -1,11 +1,16 @@
 package org.tritonhacks.memegenerator;
 
+import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,9 +21,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 
 public class GetMemeActivity extends AppCompatActivity {
 
@@ -33,6 +38,7 @@ public class GetMemeActivity extends AppCompatActivity {
 
     private ImageView imgVMeme;
     private Button btnGetAnotherMeme;
+    private Button btnSaveToGallery;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -40,6 +46,12 @@ public class GetMemeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_meme);
 
         initViews();
+
+        ActivityCompat.requestPermissions(GetMemeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        ActivityCompat.requestPermissions(GetMemeActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        /**
+         * Permissions Request
+         */
 
         if(savedInstanceState == null) {
              getMeme();
@@ -54,7 +66,15 @@ public class GetMemeActivity extends AppCompatActivity {
         // TODO: set the button's click listener to call getMeme()
         this.btnGetAnotherMeme = findViewById(R.id.btn_get_another_meme);
         this.btnGetAnotherMeme.setOnClickListener(v -> getMeme());
+
+
         this.imgVMeme = findViewById(R.id.imgV_meme);
+
+        this.btnSaveToGallery=findViewById(R.id.btn_save_to_gallery);
+        this.btnSaveToGallery.setOnClickListener(v -> saveToGallery());
+        /**
+         * Code for saving Meme to gallery
+         */
 
     }
 
@@ -173,6 +193,37 @@ public class GetMemeActivity extends AppCompatActivity {
         System.out.println(resultUrl);
         return resultUrl;
     }
+
+    private void saveToGallery(){
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) imgVMeme.getDrawable();
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+
+        FileOutputStream outputStream = null;
+        File file = Environment.getExternalStorageDirectory();
+        File dir = new File(file.getAbsolutePath() + "/TritonMemes");
+        dir.mkdirs();
+
+        String fileName = String.format("%d.png", System.currentTimeMillis());
+        File outFile = new File(dir,fileName);
+        try{
+            outputStream = new FileOutputStream(outFile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        try{
+            outputStream.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            outputStream.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
     /**
      * Checks if memeList is null or empty. SHORT-CIRCUITING
